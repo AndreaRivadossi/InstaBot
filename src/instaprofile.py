@@ -20,12 +20,29 @@
 # ___ Choose your tags wisely or you may risk liking    ___
 # ___ and commenting on undesirable media or spam.      ___
 
-import json, os, csv
+import json
+import os
+import csv
 
 # === Instagram Profile ===
 
+def profile_template():
+    # returns template of profile object
+
+    return {
+        'user': {
+            'username': '',
+            'user_id': '',
+            'media': 0,
+            'follows': 0,
+            'followers': 0
+        },
+        'followers': [],
+        'follows': []
+    }
+
 class InstaProfile:
-    # This object will contain the followers and followed users that 
+    # This object will contain the followers and followed users that
     # InstaBot picks up along the way in order to operate efficiently
 
     def __init__(self, path='cache/', params=''):
@@ -38,7 +55,9 @@ class InstaProfile:
     def import_unfollow_list(self):
         # imports the master unfollow list
 
-        self.master_unfollow_list = [line for line in open(self.unf_list_path, 'r')]
+        self.master_unfollow_list = [
+            line for line in open(
+                self.unf_list_path, 'r')]
 
     def save_unfollow_list(self):
         # saves the master unfollow list
@@ -55,7 +74,7 @@ class InstaProfile:
                 self.profile = json.load(data_file)
 
         else:
-            self.profile = self.profile_template()
+            self.profile = profile_template()
             self.populate_profile(user)
 
     def save_profile(self):
@@ -104,18 +123,3 @@ class InstaProfile:
                 break
 
         self.save_profile()
-        
-    def profile_template(self):
-        # returns template of profile object
-
-        return {
-            'user': {
-                'username': '',
-                'user_id': '',
-                'media': 0,
-                'follows': 0,
-                'followers': 0
-            },
-            'followers': [],
-            'follows': []
-        }
